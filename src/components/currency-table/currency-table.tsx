@@ -22,7 +22,15 @@ export const CurrencyTable = () => {
   }, []);
   
   return (
-    <div className="currencyTable" style={{ textAlign: 'left' }}>
+    <div
+      className="currencyTable"
+      style={{
+        textAlign: 'left',
+        paddingTop: '6px',
+        borderTop: '2px solid #ffffff8f',
+        marginTop: '20px',
+      }}
+    >
       {interestingCurrencies.map((c: string, i: number) => (
         <div 
           style={{

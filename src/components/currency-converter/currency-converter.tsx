@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
-import { createStyles, makeStyles, Theme, Paper, IconButton, InputBase, Divider, Select, MenuItem, withStyles } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Paper, IconButton, InputBase, Divider, Select, MenuItem, withStyles, Button } from '@material-ui/core';
 import { currencies } from '../../const/currencies';
+import { convert } from '../../api/currencies';
 
 type SimpleChange = ChangeEvent<{ name?: string | undefined; value: unknown; }>
 
@@ -12,19 +13,38 @@ export const CurrencyConverter = () => {
   const BootstrapInput = makeSelectStyles(InputBase);
 
   const [selectedCurrency, setSelectedCurrency] = useState('EUR');
+  const [inputValue, setInputValue] = useState('0');
+  const [convertedValue, setConvertedValue] = useState('-');
 
-  const changeCurrrency = (e: SimpleChange) => setSelectedCurrency(e.target.value as string)
+  const changeCurrrency = (e: SimpleChange) => {
+    setConvertedValue('-');
+    setSelectedCurrency(e.target.value as string);
+  }
+
+  const updateInput = (e: SimpleChange) => {
+    setInputValue(e.target.value as string);
+  }
+
+  const convertCurrency = () => {
+    console.log({selectedCurrency, inputValue})
+    convert({
+      base: selectedCurrency,
+      amount: parseFloat(inputValue),
+      quote: 'SEK',
+    }).then(value => {
+      setConvertedValue(value.toString())
+    });
+  }
 
   return (
-    <div className="currency-convreter" style={{ width: '40%' }}>
+    <div className="currency-convreter" style={{ width: '100%' }}>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={selectedCurrency}
         input={<BootstrapInput />}
         style={{
-          width: '100%',
-          textAlign: 'left',
+          width: '47%',
           marginBottom: '10px',
         }}
         onChange={changeCurrrency}
@@ -35,18 +55,55 @@ export const CurrencyConverter = () => {
           </MenuItem>
         )))}
       </Select>
-      <Paper component="form" className={classes.root}>
-        <InputBase
-          className={classes.input}
-          placeholder={currencies[selectedCurrency].currencyCode}
-          inputProps={{ 'aria-label': 'convert currency' }}
-        />
-
-        <Divider className={classes.divider} orientation="vertical" />
-        <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-          {currencies[selectedCurrency].icon}
-      </IconButton>
-      </Paper>
+        <Paper
+          component="form"
+          className={classes.root}
+          style={{
+            width: 'calc(45% + 2px)',
+            marginTop: '6px',
+            marginLeft: '133px',
+          }}
+        >
+          <InputBase
+            className={classes.input}
+            placeholder={currencies[selectedCurrency].currencyCode}
+            inputProps={{ 'aria-label': 'convert currency' }}
+            onChange={updateInput}
+          />
+  
+          <Divider className={classes.divider} orientation="vertical" />
+          <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+            {currencies[selectedCurrency].icon}
+        </IconButton>
+        </Paper>
+        <Button
+          variant="contained"
+          color="primary" 
+          onClick={convertCurrency}
+          style={{marginTop: '6px'}}>
+          Convert
+        </Button>
+      <Paper
+        component="form"
+        className={classes.root}
+        style={{
+          width: 'calc(45% + 2px)',
+          marginTop: '6px',
+          marginLeft: '133px',
+        }}
+      >
+          <InputBase
+            className={classes.input}
+            placeholder={`${convertedValue}`}
+            inputProps={{ 'aria-label': 'convert currency' }}
+            style={{color: 'black'}}
+          />
+  
+          <Divider className={classes.divider} orientation="vertical" />
+          <IconButton color="primary" disabled className={classes.iconButton} aria-label="directions">
+            {currencies['SEK'].icon}
+        </IconButton>
+        </Paper>
     </div>
   )
 }
@@ -56,7 +113,6 @@ const makeInputStyles = makeStyles((theme: Theme) => createStyles({
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    marginBottom: '20px',
   },
   input: {
     marginLeft: theme.spacing(1),

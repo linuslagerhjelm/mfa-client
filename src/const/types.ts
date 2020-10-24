@@ -1,6 +1,13 @@
 import { ReplaySubject } from 'rxjs';
 
 export type CurrencySubscription = ReplaySubject<Record<string, Currency>>
+export type ConvertSubscription = Promise<number>
+
+export interface ConvertRequest {
+  base: string,
+  quote: 'SEK',
+  amount: number,
+}
 
 export interface Currency {
   currencyCode: string,

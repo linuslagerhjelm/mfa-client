@@ -223,9 +223,9 @@ export const currencies: Record<string,Currency> = {
     exchangeRate: "-",
   }, 
   "RUB": {
-    currencyCode: "RON",
-    currencyName: "Romanian New Leu",
-    icon: "🇷🇴",
+    currencyCode: "RUB",
+    currencyName: "Russian Ruble",
+    icon: "🇷🇺",
     exchangeRate: "-",
   }, 
   "SAR": {
@@ -241,7 +241,7 @@ export const currencies: Record<string,Currency> = {
     exchangeRate: "-",
   }, 
   "SGD": {
-    currencyCode: "SEK",
+    currencyCode: "SGD",
     currencyName: "Singapore Dollar",
     icon: "🇸🇬",
     exchangeRate: "-",

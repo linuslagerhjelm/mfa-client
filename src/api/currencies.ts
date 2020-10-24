@@ -1,9 +1,11 @@
 import axios, { AxiosResponse} from "axios";
 import { ReplaySubject } from 'rxjs';
 import { currencies } from "../const/currencies";
-import { ApiResponse, ApiCurrency, Currency, CurrencySubscription } from "../const/types";
+import { ApiResponse, ApiCurrency, Currency, CurrencySubscription, ConvertSubscription, ConvertRequest } from "../const/types";
 
-const url = "https://linuslagerhjelm-opkoko-prep.builtwithdark.com/rates";
+const baseUrl = "https://linuslagerhjelm-opkoko-prep.builtwithdark.com";
+const ratesUrl = `${baseUrl}/rates`;
+const convertUrl = `${baseUrl}/convert`;
 
 const decorateCurrencies = (rates: ApiCurrency[]): Record<string, Currency> => {
   const localCurrencies: Record<string, Currency> = {...currencies};
@@ -22,9 +24,16 @@ const observable: CurrencySubscription =
   new ReplaySubject<Record<string, Currency>>();
 
 export const getCurrenciesSubscription = (): CurrencySubscription => observable;
-axios.get(url).then(
+axios.get(ratesUrl).then(
   (res: AxiosResponse<ApiResponse>) => (
     observable.next(decorateCurrencies(unwrap(res)))
   )
 );
+
+export const convert = (req: ConvertRequest): ConvertSubscription => {
+  return new Promise((resolve, reject) => {
+    axios.post(convertUrl, { ...req }).then(res => {
+      resolve(res.data)})
+  });
+}
 
