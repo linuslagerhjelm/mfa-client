@@ -14,7 +14,7 @@ export const currencies: Record<string,Currency> = {
   },
   "AUD": {
     currencyCode: "AUD",
-    currencyName: "Australien Dollar",
+    currencyName: "Australian Dollar",
     icon: "🇦🇺",
     exchangeRate: "-",
   },
