@@ -28,6 +28,7 @@ export const SignupForm = () => {
   }
 
   const submitForm = () => {
+    setError("");
     startRegistration(email, password)
       .then(qr => setQrMaterial(qr))
       .catch(err => {
