@@ -20,7 +20,7 @@ export const StartView = () => {
   const [users, updateUsers] = useState([] as string[]);
 
   useEffect(() => {
-    if (users.length === 0) {
+    if (users.length === 0 && sessionId) {
       fetchUsers(sessionId as string)
       .then(data => {
         updateUsers(data)})
@@ -33,7 +33,7 @@ export const StartView = () => {
     <div className="content" style={{ width: '500px', margin: 'auto' }}>
       <h1>Successfully logged in!</h1>
       <p>Registered users: </p>
-      {users.map(user => <p>{user}</p>)}
+      {users.map(user => <p key="user">{user}</p>)}
     </div>
   )
 }
