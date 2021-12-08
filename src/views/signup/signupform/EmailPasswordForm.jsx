@@ -37,7 +37,7 @@ export const EmailPasswordForm = ({onSubmit, error, updateEmail, updatePassword}
       color="primary"
       onClick={onSubmit}
       style={{marginTop: '6px'}}>
-      Login
+      Register
     </Button>
     <div>
       <a href="/login">Already have an account? Login</a>
