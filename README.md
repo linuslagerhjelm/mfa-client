@@ -1,6 +1,6 @@
 # MFA Client
 This repository hosts the source code for a client that can call a backend to signup and login with
-an API that uses a TOTP based MFA solution.
+an API that uses a Time-Based One Time Password (TOTP) based MFA solution.
 
 ## Get it upp and running
 
